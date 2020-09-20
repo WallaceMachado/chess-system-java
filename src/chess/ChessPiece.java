@@ -2,8 +2,9 @@ package chess;
 
 import boardgame.Board;
 import boardgame.Piece;
+import boardgame.Position;
 
-public class ChessPiece extends Piece {
+public abstract class ChessPiece extends Piece { // por extender uma classe abstrata e não implemnetar todos os metodos absitrados da mesma
 	
 	private Color color;
 
@@ -24,12 +25,12 @@ public class ChessPiece extends Piece {
 		this.color = color;
 	}
 
-
-
-	@Override
-	public boolean[][] possibleMoves() {
-		// TODO Auto-generated method stub
-		return null;
+	// verifica se a peça de uma posição é adversária
+	protected boolean IsThereOpponentPiece(Position position) {
+		ChessPiece p = (ChessPiece)getBoard().piece(position); // pegaa peça da posição no tabuleiro
+		
+		return p!= null &&p.getColor()!=color;
 	}
+	
 
 }

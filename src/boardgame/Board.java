@@ -1,7 +1,5 @@
 package boardgame;
 
-import java.util.ArrayList;
-
 public class Board {
 	private int rows;
 	private int columns;
@@ -49,12 +47,27 @@ public class Board {
 	
 	//metodo coloca uma peça em um posição no tabuleiro
 	public void placePiece(Piece piece, Position position) {
-		if(!thereIsAPieceInPosition(position)) {
+		if(thereIsAPieceInPosition(position)) {
 			throw new BoardException("There is already a piece on position " + position);
 		}
 		pieces[position.getRow()][position.getColumn()]=piece;
 		piece.position = position;// deixa de ser nula e passa a ter a posição informada
 		
+	}
+	
+	public Piece removePiece(Position position){
+		if(!positionExists(position)) {
+			throw new BoardException("Position not on the board");
+		}
+		
+		if (piece(position)==null) {
+			return null;
+		}
+		
+		Piece aux = piece(position);
+		aux.position=null;
+		pieces[position.getRow()][position.getColumn()]=null;	
+		return aux;
 	}
 	
 	public boolean positionExists(Position position) {// verifica se existe a posição
@@ -73,6 +86,6 @@ public class Board {
 		if(!positionExists(position)) {
 			throw new BoardException("Position not on the board");
 		}
-		return piece(position)== null;
+		return piece(position)!= null;
 	}
 }

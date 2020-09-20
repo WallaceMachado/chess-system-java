@@ -26,7 +26,13 @@ public class ChessMatch {
 
 		return mat;
 	}
-
+	// chessposition formato do usuário
+	public boolean [][]possibleMoves(ChessPosition sourcePosition){
+		Position position=sourcePosition.toPosition();// passando para o formato do sistema
+		validadeSourcePosition(position);
+		return board.piece(position).possibleMoves();
+	}
+	
 	// retirar a peça de uma posição e colocar em outra
 	// recebe uma posição de origem()source) e envia para uma posição de
 	// destino(target)

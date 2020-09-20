@@ -7,13 +7,29 @@ import chess.Pieces.King;
 import chess.Pieces.Rook;
 
 public class ChessMatch {
-
+	private int turn;
+	private Color currentPlayer;
 	private Board board;
 
 	public ChessMatch() {
 		board = new Board(8, 8);
+		turn =1;
+		currentPlayer=Color.WHITE;
+		
 		initialSetup();
 	}
+	
+	public int getTurn() {
+		return turn;
+	}
+
+	
+
+	public Color getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	
 
 	public ChessPiece[][] getPieces() {
 		ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
@@ -46,6 +62,7 @@ public class ChessMatch {
 		validadeSourcePosition(source);
 		validadeTargetPosition(source,target);
 		Piece capturedPiece = makeMove(source, target);
+		nextTurn();// trocar o turno
 		return (ChessPiece) capturedPiece;
 	}
 
@@ -54,7 +71,10 @@ public class ChessMatch {
 
 			throw new ChessException("There is not piece on souce position");
 		}
-
+		// caso esteja querndo mexer uma peça do jogado adversário
+		if(currentPlayer!=((ChessPiece)board.piece(source)).getColor()) {
+			throw new ChessException("The chosen piece is not yours");
+		}
 		if (!board.piece(source).isThereAnyPossibleMove()) {
 
 			throw new ChessException("There is no possible moves");
@@ -70,6 +90,14 @@ public class ChessMatch {
 
 	}
 
+	// troca o turno
+	
+	public void nextTurn() {
+		turn++;
+		currentPlayer = (currentPlayer==Color.WHITE)? Color.BLACK : Color.WHITE;
+		// se a cor do jogador for brance ele vai alterar pra preta se não ele altera para branca
+	}
+	
 	public Piece makeMove(Position source, Position target) {
 		Piece p = board.removePiece(source);
 		Piece capturedPiece = board.removePiece(target);// cptura a peça do local de destino se houver

@@ -19,7 +19,9 @@ public abstract class ChessPiece extends Piece { // por extender uma classe abst
 		return color;
 	}
 
-
+	public ChessPosition getChessPosition() {
+		return ChessPosition.fromPosition(position);
+	}
 
 	public void setColor(Color color) {
 		this.color = color;
